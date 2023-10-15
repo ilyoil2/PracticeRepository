@@ -1,0 +1,59 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${URL}
+    username: ${USERNAME}
+    password: ${PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    defer-datasource-initialization: true
+
+  redis:
+    port: 6379
+    host: 127.0.0.1
+
+mail:
+  host: smtp.gmail.com
+  port: 587
+  username: ilyoil@dsm.hs.kr
+  password: 0211ilyoil-07
+  properties:
+    mail.smtp.auth: true
+    mail.smtp.starttls.enable: true
+
+jwt:
+  header: ${HEADER:Authorization}
+  prefix : ${PREFIX:Bearer}
+  secret-key: ${JWT_SECRET_KEY:dfhasjkdfhayffhdtyhdhydshghjkdfaskverafter}
+  access-exp: ${JWT_ACCESS_EXP:10000}
+  refresh-exp: ${JWT_REFRESH_EXP:604800}
+
+logging:
+  level:
+    com.example : DEBUG
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${ACCESS-KEY}
+      secretKey: ${SECRET-KEY}
+    s3:
+      bucket: ${BUCKET}
+    region:
+      static: ${STATIC}
+  stack:
+    auto: false
