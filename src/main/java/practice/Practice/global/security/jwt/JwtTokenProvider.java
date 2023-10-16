@@ -25,28 +25,21 @@ public class JwtTokenProvider {
 
     private String SecretKey = "secret_key";
 
-
     private final JwtProperties jwtProperties;
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserDetailsService userDetailsService;
 
-/*
-    @PostConstruct
-    protected void init() {
-        accessSecretKey = Base64.getEncoder().encodeToString(accessSecretKey.getBytes());
-    }*/
-
-    public TokenResponse createToken(String nickName){
+    public TokenResponse createToken(String accountId){
         return TokenResponse
                 .builder()
-                .accessToken(createAccessToken(nickName))
-                .refreshToken(createRefreshToken(nickName))
+                .accessToken(createAccessToken(accountId))
+                .refreshToken(createRefreshToken(accountId))
                 .build();
     }
 
     // JWT 토큰 생성
-    public String createAccessToken(String nickName) {
-        Claims claims = Jwts.claims().setSubject(nickName); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
+    public String createAccessToken(String accountId) {
+        Claims claims = Jwts.claims().setSubject(accountId); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
         Date now = new Date();
         String accessToken = Jwts.builder()
                 .setClaims(claims) // 정보 저장
@@ -58,12 +51,12 @@ public class JwtTokenProvider {
     return accessToken;
     }
 
-    private String createRefreshToken(String nickName) {
+    private String createRefreshToken(String accountId) {
 
         Date now = new Date();
 
         String refreshToken = Jwts.builder()
-                .setSubject(nickName)
+                .setSubject(accountId)
                 .claim("type", "refresh")
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + jwtProperties.getRefreshExp() * 1000))//만료시간은
@@ -72,7 +65,7 @@ public class JwtTokenProvider {
 
         refreshTokenRepository.save(
                 RefreshToken.builder()
-                        .nickName(nickName)
+                        .accountId(accountId)
                         .refreshToken(refreshToken)
                         .expiration(jwtProperties.getRefreshExp())
                         .build());
@@ -96,12 +89,11 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
-    // Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
     public String resolveToken(HttpServletRequest request) {
         return request.getHeader("Authorization");
     }
 
-    // 토큰의 유효성 + 만료일자 확인
+
     public boolean validateToken(String jwtToken) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(SecretKey).parseClaimsJws(jwtToken);
@@ -140,15 +132,10 @@ public class JwtTokenProvider {
         if(!isRefreshToken(refreshToken))
             throw InvalidTokenException.EXCEPTION;
 
-        String nickName = getId(refreshToken);
+        String accountId = getId(refreshToken);
 
-        System.out.println("nickName?????????????? = " + nickName);
-
-
-        System.out.println("nickName432943920342034 = " + nickName);
-
-        return TokenResponse.builder()//access토큰은 다시 만들어서 반환하고 리프레쉬는 안만든다
-                .accessToken(createAccessToken(nickName))
+        return TokenResponse.builder()
+                .accessToken(createAccessToken(accountId))
                 .refreshToken(refreshToken)
                 .build();
     }

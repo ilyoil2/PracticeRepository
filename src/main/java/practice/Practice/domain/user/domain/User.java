@@ -19,13 +19,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+    @Column(name = "email", length = 30, nullable = false)
     private String email;
 
+    @Column(name = "username", length = 4, nullable = false)
     private String userName;
 
+    @Column(name = "password", length = 20, nullable = false)
     private String password;
 
-    private String nickName;
+    @Column(name = "account_id", length = 20, unique = true, nullable = false)
+    private String accountId;
 
     private String profileImageUrl;
 
@@ -36,7 +40,7 @@ public class User {
         this.email = user.getEmail();
         this.userName = user.getUserName();
         this.password = user.getPassword();
-        this.nickName = user.getNickName();
+        this.accountId = user.getAccountId();
     }
 
     public void profileUpload(String profileImageUrl) {

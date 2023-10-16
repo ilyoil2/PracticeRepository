@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 public class SignupRequest {
 
     @NotNull(message = "닉네임을 입력하세요")
-    private String nickName;
+    private String accountId;
 
     @NotNull(message = "이름을 입력하세요")
     private String userName;

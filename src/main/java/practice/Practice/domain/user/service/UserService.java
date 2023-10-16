@@ -5,7 +5,7 @@ import practice.Practice.domain.user.presentation.dto.request.LoginRequest;
 import practice.Practice.domain.user.presentation.dto.request.SignupRequest;
 import practice.Practice.domain.user.presentation.dto.response.MyPageResponse;
 import practice.Practice.domain.user.domain.User;
-import practice.Practice.domain.user.domain.UserRepository;
+import practice.Practice.domain.user.domain.repository.UserRepository;
 import practice.Practice.domain.user.service.exception.PasswordMismatchException;
 import practice.Practice.domain.user.service.exception.UserAlreadyExistException;
 import practice.Practice.domain.user.service.exception.UserNotFoundException;
@@ -25,12 +25,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserFacade userFacade;
-    private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
     public void signUp(SignupRequest signupRequest) {
 
-        if (userRepository.existsByNickName(signupRequest.getNickName())) {
+        if (userRepository.existsByAccountId(signupRequest.getAccountId())) {
             throw UserAlreadyExistException.EXCEPTION;
         }
 
@@ -38,7 +37,7 @@ public class UserService {
                 User.builder()
                         .email(signupRequest.getEmail())
                         .userName(signupRequest.getUserName())
-                        .nickName(signupRequest.getNickName())
+                        .accountId(signupRequest.getAccountId())
                         .password(signupRequest.getPassword())
                         .build()
         );
@@ -47,14 +46,14 @@ public class UserService {
     @Transactional
     public TokenResponse login(LoginRequest request) {
 
-        User user = userRepository.findByNickName(request.getNickName())
+        User user = userRepository.findByAccountId(request.getAccountId())
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         if (!request.getPassword().equals(user.getPassword())) {
             throw PasswordMismatchException.EXCEPTION;
         }
 
-        TokenResponse token = jwtTokenProvider.createToken(user.getNickName());
+        TokenResponse token = jwtTokenProvider.createToken(user.getAccountId());
         return token;
 
     }
@@ -66,7 +65,6 @@ public class UserService {
 
     public MyPageResponse myPage() {
         User currentUser = userFacade.getCurrentUser();
-
         return new MyPageResponse(currentUser);
     }
 }

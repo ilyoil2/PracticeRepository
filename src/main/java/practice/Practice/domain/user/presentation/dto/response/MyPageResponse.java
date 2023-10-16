@@ -9,11 +9,11 @@ import lombok.Getter;
 public class MyPageResponse {
 
     private String userName;
-    private String nickName;
+    private String profileImageUrl;
 
     public MyPageResponse(User user) {
         userName = user.getUserName();
-        nickName = user.getNickName();
+        profileImageUrl = user.getProfileImageUrl();
     }
 
 }

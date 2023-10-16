@@ -1,7 +1,7 @@
 package practice.Practice.domain.user.service.facade;
 
 import practice.Practice.domain.user.domain.User;
-import practice.Practice.domain.user.domain.UserRepository;
+import practice.Practice.domain.user.domain.repository.UserRepository;
 import practice.Practice.domain.user.service.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,8 +13,8 @@ public class UserFacade {
 
     private final UserRepository userRepository;
     public User getCurrentUser() {
-        String nickName = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByNickName(nickName)
+        String accountId = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByAccountId(accountId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
     }
