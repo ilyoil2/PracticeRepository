@@ -34,7 +34,7 @@ public class User {
     private String profileImageUrl;
 
     @Convert(converter = StringListConverter.class)
-    private List<String> imgPath = new ArrayList<>();
+    private List<String> imgList = new ArrayList<>();
 
     public User(User user) {
         this.email = user.getEmail();
@@ -52,6 +52,6 @@ public class User {
     }
 
     public void imageListUpload(List<String> profileImageUrl) {
-        this.imgPath = profileImageUrl;
+        this.imgList = profileImageUrl;
     }
 }

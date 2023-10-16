@@ -28,8 +28,7 @@ public class ProfileUploadService {
             s3Facade.deleteFile(profileImageUrl.split("/")[3]);
         }
 
-
-        profileImageUrl = s3Facade.upload(profileImage);
+        profileImageUrl = s3Facade.uploadImage(profileImage);
 
         user.profileUpload(profileImageUrl);
 

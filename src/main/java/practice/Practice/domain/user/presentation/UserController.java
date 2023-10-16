@@ -1,15 +1,11 @@
 package practice.Practice.domain.user.presentation;
 
-import practice.Practice.domain.user.presentation.dto.request.LoginRequest;
 import practice.Practice.domain.user.presentation.dto.request.SendEmailRequest;
-import practice.Practice.domain.user.presentation.dto.request.SignupRequest;
 import practice.Practice.domain.user.presentation.dto.response.MyPageResponse;
 import practice.Practice.domain.user.service.CreateImgListService;
 import practice.Practice.domain.user.service.EmailService;
 import practice.Practice.domain.user.service.ProfileUploadService;
-import practice.Practice.domain.user.service.UserService;
-import practice.Practice.global.security.TokenResponse;
-import practice.Practice.infra.service.S3Util;
+import practice.Practice.domain.user.service.MyPageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,31 +14,17 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserService userService;
+    private final MyPageService userService;
     private final EmailService sendEmailService;
     private final ProfileUploadService profileUploadService;
     private final CreateImgListService createImgListService;
-
-    @PostMapping("/signup")
-    public void signup(@RequestBody @Valid SignupRequest signupRequest) {
-        userService.signUp(signupRequest);
-    }
-
-    @PostMapping("/login")
-    public TokenResponse login(@RequestBody @Valid LoginRequest request) {
-        return userService.login(request);
-    }
-
-    @PostMapping("/reissue")
-    public TokenResponse reissue(@RequestHeader(name = "AUTHORIZATION_HEADER") String refreshToken) {
-        return userService.reissue(refreshToken);
-    }
 
     @GetMapping("/myPage")
     public MyPageResponse myPage() {
@@ -66,11 +48,11 @@ public class UserController {
         profileUploadService.profileUpload(profileImage);
     }
 
-    /*
+
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/school")
-    public void createSchool(@RequestPart(value = "imageList", required = false) List<MultipartFile> multipartFiles) {
-        List<String> imgPaths = s3Facade.upload(multipartFiles);
-        createImgListService.imgListUpload(imgPaths);
-    }*/
+    @PostMapping("/imageList")
+    public void createSchool(@RequestPart(value = "imageList", required = false) List<MultipartFile> multipartFiles)
+    {
+        createImgListService.imgListUpload(multipartFiles);
+    }
 }
