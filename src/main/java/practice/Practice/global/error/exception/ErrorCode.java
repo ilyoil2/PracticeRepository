@@ -23,10 +23,6 @@ public enum ErrorCode { //에러 코드는 Enum으로 관리
     IMAGE_VALUE_NOT_FOUND(404, "Image Value Not Found"),
     WRONG_IMAGE(403, "Wrong image"),
 
-    // board
-    BOARD_NOT_FOUND(404, "Board not found"),
-    BOARD_WRITER_MISMATCH(403, "Board writer mismatch"),
-
     //general
     BAD_REQUEST(400, "Bad request"),
     //잘못된 요청으로써 문법상 오류가 있어서 서버가 요청사항을 이해하지 못하는 경우

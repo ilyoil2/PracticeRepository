@@ -3,7 +3,7 @@ package practice.Practice.global.security.auth;
 
 import practice.Practice.domain.user.domain.User;
 import practice.Practice.domain.user.domain.repository.UserRepository;
-import practice.Practice.domain.user.service.exception.UserNotFoundException;
+import practice.Practice.domain.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,10 +18,10 @@ public class AuthDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String accountId) {
 
-        User user = userRepository.findByAccountId(accountId)//그냥 유저 없으면 오류 발생
-                .orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByAccountId(accountId)
+                .orElseThrow(()-> UserNotFoundException.EXCEPTION);
 
-        return new AuthDetails(user.getAccountId());//아니면
+        return new AuthDetails(user.getAccountId());
 
      }
 }

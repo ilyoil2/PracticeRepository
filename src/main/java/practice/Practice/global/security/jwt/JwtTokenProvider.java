@@ -1,8 +1,8 @@
 package practice.Practice.global.security.jwt;
 
 
-import practice.Practice.domain.auth.RefreshToken;
-import practice.Practice.domain.auth.RefreshTokenRepository;
+import practice.Practice.domain.refreshToken.RefreshToken;
+import practice.Practice.domain.refreshToken.RefreshTokenRepository;
 import practice.Practice.global.exception.ExpiredTokenException;
 import practice.Practice.global.exception.InvalidTokenException;
 import practice.Practice.global.security.TokenResponse;

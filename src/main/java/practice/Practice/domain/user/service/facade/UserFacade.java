@@ -2,7 +2,7 @@ package practice.Practice.domain.user.service.facade;
 
 import practice.Practice.domain.user.domain.User;
 import practice.Practice.domain.user.domain.repository.UserRepository;
-import practice.Practice.domain.user.service.exception.UserNotFoundException;
+import practice.Practice.domain.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

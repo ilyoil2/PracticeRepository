@@ -6,7 +6,7 @@ import practice.Practice.global.error.exception.ErrorCode;
 
 public class ExpiredTokenException extends BusinessException {
     public static final BusinessException EXCEPTION = new ExpiredTokenException();
-    public ExpiredTokenException(){
+    private ExpiredTokenException(){
         super(ErrorCode.EXPIRED_TOKEN);
     }
 }

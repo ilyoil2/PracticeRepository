@@ -1,4 +1,4 @@
-package practice.Practice.domain.auth;
+package practice.Practice.domain.refreshToken;
 
 import lombok.Builder;
 import lombok.Getter;

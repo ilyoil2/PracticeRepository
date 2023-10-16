@@ -1,4 +1,4 @@
-package practice.Practice.domain.user.service.exception;
+package practice.Practice.domain.user.exception;
 
 
 import practice.Practice.global.error.exception.BusinessException;
