@@ -22,7 +22,10 @@ repositories {
 }
 
 dependencies {
-	
+
+	//OAuth2
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
 	//S3 이미지
 	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.281'
 
