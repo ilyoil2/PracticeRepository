@@ -1,6 +1,7 @@
 package practice.Practice.domain.auth.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import practice.Practice.domain.user.domain.User;
@@ -17,6 +18,7 @@ public class LoginService {
 
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public TokenResponse login(LoginRequest request) {
@@ -24,7 +26,8 @@ public class LoginService {
         User user = userRepository.findByAccountId(request.getAccountId())
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
-        if (!request.getPassword().equals(user.getPassword())) {
+
+        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())){
             throw PasswordMismatchException.EXCEPTION;
         }
 

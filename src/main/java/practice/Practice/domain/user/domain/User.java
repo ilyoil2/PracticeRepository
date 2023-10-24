@@ -19,13 +19,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @Column(name = "email", length = 30, nullable = false)
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "username", length = 4, nullable = false)
-    private String userName;
+    private String username;
 
-    @Column(name = "password", length = 20, nullable = false)
+    @Column(name = "password", length = 2000, nullable = false)
     private String password;
 
     @Column(name = "account_id", length = 20, unique = true, nullable = false)
@@ -38,7 +38,7 @@ public class User {
 
     public User(User user) {
         this.email = user.getEmail();
-        this.userName = user.getUserName();
+        this.username = user.getUsername();
         this.password = user.getPassword();
         this.accountId = user.getAccountId();
     }

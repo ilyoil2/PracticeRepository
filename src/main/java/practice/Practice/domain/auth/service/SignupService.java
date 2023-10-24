@@ -1,6 +1,7 @@
 package practice.Practice.domain.auth.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import practice.Practice.domain.user.domain.User;
@@ -13,6 +14,8 @@ import practice.Practice.domain.user.exception.UserAlreadyExistException;
 public class SignupService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Transactional
     public void signUp(SignupRequest signupRequest) {
@@ -21,12 +24,14 @@ public class SignupService {
             throw UserAlreadyExistException.EXCEPTION;
         }
 
+        String password = passwordEncoder.encode(signupRequest.getPassword());
+
         userRepository.save(
                 User.builder()
                         .email(signupRequest.getEmail())
-                        .userName(signupRequest.getUserName())
+                        .username(signupRequest.getUserName())
                         .accountId(signupRequest.getAccountId())
-                        .password(signupRequest.getPassword())
+                        .password(password)
                         .build()
         );
     }
