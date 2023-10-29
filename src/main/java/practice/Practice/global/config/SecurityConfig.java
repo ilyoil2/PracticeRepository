@@ -1,5 +1,8 @@
 package practice.Practice.global.config;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import practice.Practice.global.security.jwt.JwtTokenFilter;
 import practice.Practice.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +19,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    // authenticationManager를 Bean 등록합니다.
-
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -36,13 +41,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
-                .authorizeRequests()// 요청에 대한 사용권한 체크
+                .authorizeRequests()
                 .anyRequest().permitAll()
 
                 .and()
                 .addFilterBefore(new JwtTokenFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class); // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
-        // + 토큰에 저장된 유저정보를 활용하여야 하기 때문에 CustomUserDetailService 클래스를 생성합니다.
+                        UsernamePasswordAuthenticationFilter.class);
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

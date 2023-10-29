@@ -17,6 +17,16 @@ spring:
         show_sql: true
     defer-datasource-initialization: true
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ENC(YROBiwrWocFI0OGZCEDse+j/iHoWN4eO216IVv3+HaZP0tsMPfXIMkJqWGfyYFuty/rb4f7UDi9B/OByAgeNxGQbRgwcC7nHTi/lhasIXaRfW/ETFNQo4g==)    # REST API 키
+            client-secret: ENC(7a9NSzNM7KRlnEW5/UmYcKvcDNrbah0tPTV43EzKUZ1xJi1objqQLUANPHdpp6rv)
+            scope: profile, email
+            redirect-uri: "<https://66challenge-server.store/login/oauth2/code/google>"
+
   servlet:
     multipart:
       max-file-size: 10MB
@@ -62,3 +72,26 @@ cloud:
       static: ${STATIC}
   stack:
     auto: false
+    springdoc:
+      api-docs:
+        path: ${SWAGGER_PATH}
+      swagger-ui:
+        path: ${SWAGGER_UI_PATH}
+        display-request-duration: true
+      cache:
+        disabled: true
+
+  springdoc:
+    swagger-ui:
+      path: /swagger-ui.html
+      groups-order: DESC
+      operationsSorter: method
+      disable-swagger-default-url: true
+      display-request-duration: true
+    api-docs:
+      path: /api-docs
+    show-actuator: true
+    default-consumes-media-type: application/json
+    default-produces-media-type: application/json
+    paths-to-match:
+      - /v1/**

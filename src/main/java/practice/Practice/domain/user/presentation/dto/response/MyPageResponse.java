@@ -12,7 +12,7 @@ public class MyPageResponse {
     private String profileImageUrl;
 
     public MyPageResponse(User user) {
-        userName = user.getUserName();
+        userName = user.getUsername();
         profileImageUrl = user.getProfileImageUrl();
     }
 

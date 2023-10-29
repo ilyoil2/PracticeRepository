@@ -19,7 +19,6 @@ public class SignupRequest {
     @NotNull(message = "이메일을 입력하세요")
     private String email;
 
-    //@Pattern(regexp = "^(?=.*[!@#$%^&*])(?=.{1,20}$).*",
-      //      message = "비밀번호는 최대 20글자이고, 특수문자 1개 이상이 포함되어야 합니다.")
+    @NotNull(message = "이메일을 입력하세요")
     private String password;
 }
