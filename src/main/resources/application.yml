@@ -72,3 +72,26 @@ cloud:
       static: ${STATIC}
   stack:
     auto: false
+    springdoc:
+      api-docs:
+        path: ${SWAGGER_PATH}
+      swagger-ui:
+        path: ${SWAGGER_UI_PATH}
+        display-request-duration: true
+      cache:
+        disabled: true
+
+  springdoc:
+    swagger-ui:
+      path: /swagger-ui.html
+      groups-order: DESC
+      operationsSorter: method
+      disable-swagger-default-url: true
+      display-request-duration: true
+    api-docs:
+      path: /api-docs
+    show-actuator: true
+    default-consumes-media-type: application/json
+    default-produces-media-type: application/json
+    paths-to-match:
+      - /v1/**

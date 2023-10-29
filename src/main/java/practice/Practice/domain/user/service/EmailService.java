@@ -15,13 +15,10 @@ public class EmailService {
 
     public void sendEmail(SendEmailRequest request) throws Exception {
 
-        //User user = userRepository.findByEmail(request.getAddress())
-          //      .orElseThrow(() -> new Exception("입력한 이메일에 해당하는 회원이 없습니다."));
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(request.getAddress());
         message.setSubject(request.getTitle());
         message.setText(request.getMessege());
-
 
         try {
             mailSender.send(message);
